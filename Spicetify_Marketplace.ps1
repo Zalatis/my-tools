@@ -9,7 +9,7 @@ if ($null -eq $checkSpice) {
   Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.ps1" | Invoke-Expression
 }
 
-$spicetifyexe = "$env:HOMEPATH\spicetify.exe"
+$spicetifyexe = "$env:HOMEPATH\spicetify-cli\spicetify.exe"
 $spicePath = "$env:APPDATA\spicetify"
 $sp_dot_dir = "$spicePath\CustomApps"
 if (-not (Test-Path $sp_dot_dir)) {

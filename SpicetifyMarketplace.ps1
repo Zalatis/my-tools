@@ -3,6 +3,13 @@
 
 Write-Host "Setting up..." -ForegroundColor "Green"
 
+# $checkSpice = Get-Command & $env:LOCALAPPDATA\spicetify\spicetify.exe -ErrorAction Silent
+# if ($null -eq $
+# ) {
+#   Write-Host -ForegroundColor Red "Spicetify not found. Installing that for you..."
+#   Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.ps1" | Invoke-Expression
+# }
+
 $spicePath = "$env:APPDATA\spicetify"
 $sp_dot_dir = "$spicePath\CustomApps"
 if (-not (Test-Path $sp_dot_dir)) {

@@ -35,8 +35,8 @@ if (Test-Path -Path "$sp_dot_dir\marketplace") {
   Remove-Item -Path "$sp_dot_dir\marketplace" -Force -Recurse
 }
 Rename-Item -Path "$sp_dot_dir\spicetify-marketplace-dist" -NewName "marketplace" -Force
-$spicetifyexe config custom_apps spicetify-marketplace-
-$spicetifyexe config custom_apps marketplace
+C:$env:LOCALAPPDATA\spicetify\spicetify.exe config custom_apps spicetify-marketplace-
+C:$env:LOCALAPPDATA\spicetify\spicetify.exe config custom_apps marketplace
 
 # Color injection fix
 C:$env:LOCALAPPDATA\spicetify\spicetify.exe config inject_css 1

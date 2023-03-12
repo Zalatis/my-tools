@@ -9,8 +9,6 @@ if ($null -eq $checkSpice) {
   Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.ps1" | Invoke-Expression
 }
 
-$spicetifyexe = "C:$env:LOCALAPPDATA\spicetify\spicetify.exe"
-echo "$spicetifyexe"
 $spicePath = "$env:APPDATA\spicetify"
 $sp_dot_dir = "$spicePath\CustomApps"
 if (-not (Test-Path $sp_dot_dir)) {
@@ -41,16 +39,16 @@ $spicetifyexe config custom_apps spicetify-marketplace-
 $spicetifyexe config custom_apps marketplace
 
 # Color injection fix
-$spicetifyexe config inject_css 1
-$spicetifyexe config replace_colors 1
+C:$env:LOCALAPPDATA\spicetify\spicetify.exe config inject_css 1
+C:$env:LOCALAPPDATA\spicetify\spicetify.exe config replace_colors 1
 
 Write-Host "Applying placeholder theme..." -ForegroundColor "Cyan"
 Remove-Item -Recurse -Force "$spicePath\Themes\marketplace" -ErrorAction Ignore
 New-Item -Path "$spicePath\Themes\marketplace" -ItemType Directory | Out-Null
 Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/color.ini" -OutFile "$spicePath\Themes\marketplace\color.ini"
-$spicetifyexe config current_theme marketplace
+C:$env:LOCALAPPDATA\spicetify\spicetify.exe config current_theme marketplace
 
-$spicetifyexe backup
-$spicetifyexe apply
+C:$env:LOCALAPPDATA\spicetify\spicetify.exe backup
+C:$env:LOCALAPPDATA\spicetify\spicetify.exe apply
 
 Write-Host "Done! If nothing has happened, do spicetify apply" -ForegroundColor "Green"

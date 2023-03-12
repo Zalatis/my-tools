@@ -10,6 +10,7 @@ if ($null -eq $checkSpice) {
 }
 
 $spicetifyexe = "C:$env:HOMEPATH\spicetify-cli\spicetify.exe"
+echo "$spicetifyexe"
 $spicePath = "$env:APPDATA\spicetify"
 $sp_dot_dir = "$spicePath\CustomApps"
 if (-not (Test-Path $sp_dot_dir)) {

@@ -307,8 +307,8 @@ SET "appname="
 cls
 echo  ************************************************************
 echo  *                                                          *
-If /i "%selectedlanguage%"=="1" echo  *              Activate a custom app             *
-If /i "%selectedlanguage%"=="2" echo  *         Activer une application custom         *
+If /i "%selectedlanguage%"=="1" echo  *                   Activate a custom app                  *
+If /i "%selectedlanguage%"=="2" echo  *              Activer une application custom              *
 echo  *                                                          *
 echo  ************************************************************
 echo.

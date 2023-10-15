@@ -344,6 +344,25 @@ If /i "%selectedlanguage%"=="2" echo Appuyez sur une touche pour retourner au me
 pause > nul
 goto menu
 
+:EnableDevTool
+cls
+if not exist %LOCALAPPDATA%\spicetify\spicetify.exe (
+    goto SpicetifyNotInstalled
+)
+%LOCALAPPDATA%\spicetify\spicetify.exe enable-devtools
+cls
+echo  ************************************************************
+echo  *                                                          *
+If /i "%selectedlanguage%"=="1" echo  *                DevTool is now active !                   *
+If /i "%selectedlanguage%"=="2" echo  *           Le DevTool est maintenant actif !              *
+echo  *                                                          *
+echo  ************************************************************
+echo.
+If /i "%selectedlanguage%"=="1" echo Press any key to return to the menu.
+If /i "%selectedlanguage%"=="2" echo Appuyez sur une touche pour retourner au menu.
+pause > nul
+goto menu
+
 :ErrorCustomApp
 If /i "%selectedlanguage%"=="1" echo "%appchoice%" is not a valid number !
 If /i "%selectedlanguage%"=="2" echo "%appchoice%" n'est pas un num‚ro valide !
@@ -363,25 +382,6 @@ echo  ************************************************************
 echo  *                                                          *
 If /i "%selectedlanguage%"=="1" echo  *                   Spotify, the return  !                 *
 If /i "%selectedlanguage%"=="2" echo  *                   Spotify, le retour !                   *
-echo  *                                                          *
-echo  ************************************************************
-echo.
-If /i "%selectedlanguage%"=="1" echo Press any key to return to the menu.
-If /i "%selectedlanguage%"=="2" echo Appuyez sur une touche pour retourner au menu.
-pause > nul
-goto menu
-
-:EnableDevTool
-cls
-if not exist %LOCALAPPDATA%\spicetify\spicetify.exe (
-    goto SpicetifyNotInstalled
-)
-%LOCALAPPDATA%\spicetify\spicetify.exe enable-devtools
-cls
-echo  ************************************************************
-echo  *                                                          *
-If /i "%selectedlanguage%"=="1" echo  *                DevTool is now active !                   *
-If /i "%selectedlanguage%"=="2" echo  *           Le DevTool est maintenant actif !              *
 echo  *                                                          *
 echo  ************************************************************
 echo.

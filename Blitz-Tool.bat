@@ -6,9 +6,9 @@ echo --------------------
 echo -- Menu du Script --
 echo --------------------
 echo.
-echo Que voulez-vous faire ? (Repondez avec le numero)
+echo Que voulez-vous faire ? (R‚pondez avec le num‚ro)
 echo 1 - Installer Blitz
-echo 2 - Bloquer/Debloquer les pubs
+echo 2 - Bloquer/D‚bloquer les pubs
 echo 3 - Quitter
 echo.
 SET /p reponse1="Votre choix : "
@@ -21,7 +21,7 @@ GOTO :error1
 :: Installe Blitz
 :InstallBlitz
 cls
-%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -command "Start-BitsTransfer -Source https://blitz.gg/download/win -Destination C:\%HOMEPATH%\Downloads\Blitz-latest.exe"
+%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -command "Invoke-WebRequest -Uri 'https://blitz.gg/download/win' -OutFile 'C:\%HOMEPATH%\Downloads\Blitz-latest.exe'"
 cls
 start C:\%HOMEPATH%\Downloads\Blitz-latest.exe
 cls
@@ -41,11 +41,11 @@ cls
 Rem Suppression de l'ancienne version de AdsManager
 IF NOT EXIST "C:\%HOMEPATH%\Downloads\AdsManager-Blitz.bat" echo Notice: Pas d'ancienne version du AdsManager.
 IF EXIST "C:\%HOMEPATH%\Downloads\AdsManager-Blitz.bat" del "C:\%HOMEPATH%\Downloads\AdsManager-Blitz.bat" /S /F /Q
-%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -command "Start-BitsTransfer -Source https://zalati.fr/tools/AdsManager-Blitz.bat -Destination C:\%HOMEPATH%\Downloads\AdsManager-Blitz.bat"
+%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -command "Invoke-WebRequest -Uri 'https://zalati.fr/download/AdsManager-Blitz.bat' -OutFile 'C:\%HOMEPATH%\Downloads\AdsManager-Blitz.bat'"
 call C:\%HOMEPATH%\Downloads\AdsManager-Blitz.bat
 cls
 echo *************************************************
-echo *         Execution de AdsManager...            *
+echo *         Exe‚ution de AdsManager...            *
 echo *************************************************
 echo Appuyez sur une touche pour retourner au menu.
 pause > nul

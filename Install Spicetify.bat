@@ -122,7 +122,7 @@ goto menu
 
 :InstallSpotify
 cls
-%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -command "Start-BitsTransfer -Source https://download.scdn.co/SpotifySetup.exe -Destination C:%HOMEPATH%\Downloads\SpotifySetup.exe"
+%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -command "Invoke-WebRequest -Uri 'https://download.scdn.co/SpotifySetup.exe' -OutFile 'C:%HOMEPATH%\Downloads\SpotifySetup.exe'"
 cls
 C:%HOMEPATH%\Downloads\SpotifySetup.exe /Silent
 cls
@@ -181,7 +181,7 @@ cls
 if not exist %LOCALAPPDATA%\spicetify\spicetify.exe (
     goto SpicetifyNotInstalled
 )
-%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -NoLogo -NonInteractive -ExecutionPolicy Bypass "Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/Zalatis/my-tools/main/SpicetifyMarketplace.ps1" | Invoke-Expression"
+%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -NoLogo -NonInteractive -ExecutionPolicy Bypass "Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.ps1" | Invoke-Expression"
 cls
 echo  ************************************************************
 echo  *                                                          *
@@ -257,15 +257,14 @@ If /i "%extensionchoice%"=="5" SET extensionname=keyboardShortcut.js
 If /i "%extensionchoice%"=="6" SET extensionname=loopyLoop.js
 If /i "%extensionchoice%"=="7" (
 	if exist %LOCALAPPDATA%\spicetify\Extensions\obsnowplaying.js (
-		SET extensionname=obsnowplaying.js
-		) else (
-			cls
-			SET extensionname=obsnowplaying.js
-			If /i "%selectedlanguage%"=="1" echo Currently downloading the extension obsnowplaying.js
-			If /i "%selectedlanguage%"=="2" echo T‚l‚chargement en cours de l'extension obsnowplaying.js
-			%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -command "Start-BitsTransfer -Source https://zalati.fr/tools/obsnowplaying.js -Destination %LOCALAPPDATA%\spicetify\Extensions\obsnowplaying.js" 
-		)
+		del /S /F /Q %LOCALAPPDATA%\spicetify\Extensions\obsnowplaying.js
 	)
+	cls
+	If /i "%selectedlanguage%"=="1" echo Currently downloading the extension obsnowplaying.js
+	If /i "%selectedlanguage%"=="2" echo T‚l‚chargement en cours de l'extension obsnowplaying.js
+	%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe -command "Invoke-WebRequest -Uri 'https://zalati.fr/download/obsnowplaying.js' -OutFile '%LOCALAPPDATA%\spicetify\Extensions\obsnowplaying.js'"
+	SET extensionname=obsnowplaying.js
+)
 If /i "%extensionchoice%"=="8" SET extensionname=popupLyrics.js
 If /i "%extensionchoice%"=="9" SET extensionname=shuffle+.js
 If /i "%extensionchoice%"=="10" SET extensionname=trashbin.js

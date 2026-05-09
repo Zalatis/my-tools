@@ -1,7 +1,7 @@
 @echo off & setlocal enabledelayedexpansion
-Set "Copyright="
+Set ""
 Title  %~n0 %Copyright%
-Mode con cols=75 lines=8
+Mode con cols=90 lines=30
 cls & color 0A & echo.
     echo             ***********************************************
     echo                 %~n0 %Copyright%
@@ -11,7 +11,7 @@ if _%1_==_Main_  goto :Main
 Set Count=0
 Set L=0
 :getadmin
-    echo               %~nx0 : self elevating
+    echo               %~nx0 :
     set vbs=%temp%\getadmin.vbs
 (
     echo Set UAC = CreateObject^("Shell.Application"^)
@@ -24,7 +24,7 @@ goto :eof
 :Main
 Call :init
 Call :CountLines
-Set "PasswordLog=%~dp0MdP_Wifi_pour_%ComputerName%.txt"
+Set "PasswordLog=%~dp0Wifi_Passwords_on_%ComputerName%.txt"
 %Mod%
     echo(
     echo             ***********************************************
@@ -40,7 +40,7 @@ echo(
     echo(
     echo                  [N][SSID] ==============^> "Mot de passe"
     echo(
- 
+   
 )>"%PasswordLog%"
 for /f "skip=2 delims=: tokens=2" %%a in ('netsh wlan show profiles') do (
     if not "%%a"=="" (

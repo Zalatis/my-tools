@@ -8,9 +8,20 @@ rem ----------------------------------------
 set "LOG=0"
 set "LOGFILE=%~dp0output.log"
 
+set "LGHUB_DIR=C:\Program Files\LGHUB"
+set "LGHUB_AGENT=%LGHUB_DIR%\lghub_agent.exe"
+set "LGHUB_GL=%LGHUB_DIR%\lghub_gl.exe"
+set "WAIT_SECONDS=5"
+
 if "%LOG%"=="1" type nul > "%LOGFILE%"
 
 call :log [INFO] Started at %DATE% %TIME%
+call :log.
+
+rem ----------------------------------------
+rem Wait for LGHUB processes first, but only if all exe files exist
+rem ----------------------------------------
+call :wait_for_lghub
 call :log.
 
 set "ROOT=HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render"
@@ -70,13 +81,51 @@ call :log.
 call :log [INFO] Matching devices : %FOUND%
 call :log [INFO] Skipped devices  : %SKIPPED%
 call :log [INFO] Updated devices  : %UPDATED%
-
 call :log.
 call :log [INFO] Finished at %DATE% %TIME%
 call :log ----------------------------------------
 
 endlocal
 exit /b 0
+
+:wait_for_lghub
+set "ALL_EXIST=1"
+
+if not exist "%LGHUB_AGENT%" (
+    call :log [INFO] Missing file: %LGHUB_AGENT%
+    set "ALL_EXIST=0"
+)
+if not exist "%LGHUB_GL%" (
+    call :log [INFO] Missing file: %LGHUB_GL%
+    set "ALL_EXIST=0"
+)
+
+if "%ALL_EXIST%" NEQ "1" (
+    call :log [INFO] LGHUB not fully installed. Continuing without waiting.
+    goto :eof
+)
+
+call :log [INFO] LGHUB executables found on disk.
+call :log [INFO] Waiting for lghub_agent.exe and lghub_gl.exe...
+
+:wait_loop
+set "RUN_LGHUB=0"
+set "RUN_AGENT=0"
+set "RUN_GL=0"
+
+tasklist /fi "IMAGENAME eq lghub_agent.exe" /fo csv /nh 2>nul | find /i "lghub_agent.exe" >nul
+if not errorlevel 1 set "RUN_AGENT=1"
+
+tasklist /fi "IMAGENAME eq lghub_gl.exe" /fo csv /nh 2>nul | find /i "lghub_gl.exe" >nul
+if not errorlevel 1 set "RUN_GL=1"
+
+if "!RUN_AGENT!!RUN_GL!" NEQ "11" (
+    timeout /t %WAIT_SECONDS% /nobreak >nul
+    goto wait_loop
+)
+
+call :log [INFO] lghub_agent.exe and lghub_gl.exe are running.
+goto :eof
 
 :log
 if "%~1"=="" (

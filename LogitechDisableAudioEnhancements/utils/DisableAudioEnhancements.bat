@@ -118,9 +118,18 @@ goto :eof
 :ensure_value
 set "TARGETKEY=%~1"
 
+rem --- Take ownership and grant SYSTEM full control via PowerShell ---
+powershell -NoProfile -Command ^
+  "$key = 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render' + '!TARGETKEY:*HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render=!';" ^
+  "$regKey = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($key.Replace('HKLM\',''), [Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree, [System.Security.AccessControl.RegistryRights]::TakeOwnership);" ^
+  "if ($regKey) { $acl = $regKey.GetAccessControl([System.Security.AccessControl.AccessControlSections]::None); $owner = New-Object System.Security.Principal.NTAccount('NT AUTHORITY','SYSTEM'); $acl.SetOwner($owner); $regKey.SetAccessControl($acl); $regKey.Close() };" ^
+  "$regKey = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey($key.Replace('HKLM\',''), [Microsoft.Win32.RegistryKeyPermissionCheck]::ReadWriteSubTree, [System.Security.AccessControl.RegistryRights]::ChangePermissions);" ^
+  "if ($regKey) { $acl = $regKey.GetAccessControl(); $rule = New-Object System.Security.AccessControl.RegistryAccessRule('NT AUTHORITY\SYSTEM','FullControl','Allow'); $acl.SetAccessRule($rule); $regKey.SetAccessControl($acl); $regKey.Close() }" ^
+  >nul 2>&1
+
 reg add "%TARGETKEY%" /v "%VALUE%" /t REG_DWORD /d %DATA% /f >nul 2>&1
 if errorlevel 1 (
-    call :log [WARN] Failed to write %TARGETKEY%
+    call :log [WARN] Failed to write %TARGETKEY% ^(errorlevel=!errorlevel!^)
     goto :eof
 )
 

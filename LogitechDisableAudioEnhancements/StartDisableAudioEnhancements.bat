@@ -89,7 +89,7 @@ goto :run_task
 :run_task
 schtasks /run /tn "%TASKNAME%"
 if errorlevel 1 (
-    echo [AVERTISSEMENT] La tƒche existe mais n'a pas pu être lanc‚e imm‚diatement.
+    echo [AVERTISSEMENT] La tƒche existe mais n'a pas pu ˆtre lanc‚e imm‚diatement.
     pause
     exit /b 1
 )
